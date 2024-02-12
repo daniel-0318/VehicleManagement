@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Editar Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="profileform" (ngSubmit)="onSubmit()" class="mx-3 my-4">
+    <div class="profile-pic ion-text-center">
+      <img [src]="getPhoto('photoFacial')" alt="Foto de perfil" />
+      <ion-button (click)="addPhotoToGallery('photoFacial')" class="change-photo-button">
+        Actualizar foto
+        <ion-icon slot="end" name="camera"></ion-icon>
+      </ion-button>
+    </div>
+    <ion-item>
+      <ion-input formControlName="name" type="text" labelPlacement="floating" label="Nombre"></ion-input>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('name')">
+      El nombre es requerido.
+    </ion-text>
+
+    <ion-item>
+      <ion-input formControlName="lastname" type="text" labelPlacement="floating" label="Apellido"></ion-input>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('lastname')">
+      El apellido es requerido.
+    </ion-text>
+
+    <ion-item>
+      <ion-select formControlName="identificationType" labelPlacement="floating" label="Tipo de identidad">
+        <ion-select-option value="cedula">Cédula</ion-select-option>
+        <ion-select-option value="nit">NIT</ion-select-option>
+        <ion-select-option value="pasaporte">Pasaporte</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('identificationType')">
+      El tipo de identidad es requerido.
+    </ion-text>
+
+    <ion-item>
+      <ion-input formControlName="identificationNumber" type="text" labelPlacement="floating"
+        label="Número de identidad"></ion-input>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('identificationNumber')">
+      El número de identidad es requerido.
+    </ion-text>
+
+    <ion-item>
+      <ion-select formControlName="gender" labelPlacement="floating" label="Género">
+        <ion-select-option value="masculino">Masculino</ion-select-option>
+        <ion-select-option value="femenino">Femenino</ion-select-option>
+        <ion-select-option value="no-especificado">Prefiero no especificar</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('gender')">
+      Debes seleccionar tu género.
+    </ion-text>
+
+    <ion-item>
+      <ion-input formControlName="phone" type="tel" labelPlacement="floating"
+        label="Número de teléfono"></ion-input>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('phone')">
+      El número de teléfono es requerido.
+    </ion-text>
+
+    <ion-item>
+      <ion-input formControlName="geoAddress" type="text" labelPlacement="floating"
+        label="Dirección" readonly></ion-input>
+    </ion-item>
+    <ion-item>
+      <app-map-modal (address)="changeAddress($event)" style="width: 100%;"></app-map-modal>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('geoAddress')">
+      La geolocalización es necesaria.
+    </ion-text>
+
+    <ion-item>
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-padding-top">
+          <ion-col size="12">
+            <ion-label>Foto de cédula lado frontal</ion-label>
+          </ion-col>
+          <ion-col size="12">
+
+            <div class="d-flex ion-align-items-center">
+              <div class="ion-align-items-start">
+                <ion-img [src]="getImage('photoIdFront')" style="width: 100px; height: 100px;"></ion-img>
+              </div>
+              <div class="ion-align-items-end ion-padding-start">
+                <ion-button (click)="addPhotoToGallery('photoIdFront')" class="ion-margin-start">
+                  <ion-icon slot="icon-only" name="add"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-text color="danger" class="text-error" *ngIf="idValidField('photoIdFront')">
+      La foto de la cédula frontal es requerido.
+    </ion-text>
+    
+    <ion-item>
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-padding-top">
+          <ion-col size="12">
+            <ion-label>Foto de cédula lado reverso</ion-label>
+          </ion-col>
+          <ion-col size="12">
+
+            <div class="d-flex ion-align-items-center">
+              <div class="ion-align-items-start">
+                <ion-img [src]="getImage('photoIdBack')" style="width: 100px; height: 100px;"></ion-img>
+              </div>
+              <div class="ion-align-items-end ion-padding-start">
+                <ion-button (click)="addPhotoToGallery('photoIdBack')" class="ion-margin-start">
+                  <ion-icon slot="icon-only" name="add"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+    <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('photoIdBack')">
+      La foto de la cédula es reverso.
+    </ion-text>
+
+    <ion-button expand="block" type="submit">Guardar Cambios</ion-button>
+</form>
+</ion-content>

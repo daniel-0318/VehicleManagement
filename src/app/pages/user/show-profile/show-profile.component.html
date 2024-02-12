@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="editProfile()">Editar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngIf="profile">
+    <ion-card-content class="d-flex flex-column">
+      <div class="profile-pic">
+        <img [src]="profile.photoFacial" alt="Foto de perfil" />
+      </div>
+      <hr>
+      <ion-card-title>{{ profile.name }} {{ profile.lastname }}</ion-card-title>
+      <ion-card-subtitle>Genero: {{ profile.gender }}</ion-card-subtitle>
+      <ion-label><strong>Email: </strong> {{ profile.email }}</ion-label>
+      <ion-label><strong>Teléfono: </strong> {{ profile.phone }}</ion-label>
+      <ion-label><strong>Tipo de identificación: </strong> {{ profile.identificationType }}</ion-label>
+      <ion-label><strong>Número de identificación: </strong> {{ profile.identificationNumber }}</ion-label>
+      <ion-label><strong>Dirección</strong> {{ profile.geoAddress }}</ion-label>
+    </ion-card-content>
+  </ion-card>
+  <ion-button expand="block" (click)="logout()">Cerrar sesion</ion-button>
+</ion-content>

@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomePage } from './home/home.page';
 import { UserPage } from './pages/user/user.page';
 import { VehiclesPage } from './pages/vehicles/vehicles.page';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { VehiclesPage } from './pages/vehicles/vehicles.page';
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
