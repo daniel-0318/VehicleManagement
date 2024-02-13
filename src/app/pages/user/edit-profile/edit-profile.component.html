@@ -10,7 +10,7 @@
 <ion-content>
   <form [formGroup]="profileform" (ngSubmit)="onSubmit()" class="mx-3 my-4">
     <div class="profile-pic ion-text-center">
-      <img [src]="getPhoto('photoProfile')" alt="Foto de perfil" />
+      <img [src]="getImage('photoProfile')" alt="Foto de perfil" />
       <ion-button (click)="addPhotoToGallery('photoProfile')" class="change-photo-button">
         Actualizar foto
         <ion-icon slot="end" name="camera"></ion-icon>

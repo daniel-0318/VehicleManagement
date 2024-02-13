@@ -33,8 +33,6 @@ export class ListVehiclesComponent {
   }
 
   ionViewWillEnter() {
-    console.log("ionViewWillEnter");
-
     this.page = 1;
     this.vehicles = [];
     this.getVehicles(this.page);
@@ -44,24 +42,24 @@ export class ListVehiclesComponent {
   getVehicles(page: number) {
 
     this.vehicleService.getVehicles(page).subscribe({
-      next: (resp:any)=>{
-        console.log(resp);
+      next: (resp: any) => {
 
-      if (resp && resp.data) {
+        if (resp && resp.data) {
 
-        this.vehicles = [...this.vehicles, ...resp.data];
+          this.vehicles = [...this.vehicles, ...resp.data];
 
-      }
-    },
-    error: (error) => {
-      console.log("manejo error lista");
-      setTimeout(() => {
-        let itemstemp = localStorage.getItem("items");
-        if (itemstemp) {
-          this.vehicles = JSON.parse(itemstemp);
         }
+      },
+      error: (error) => {
+        if (error.status == 0) {
+          setTimeout(() => {
+            let itemstemp = localStorage.getItem("vehiclesList");
+            if (itemstemp) {
+              this.vehicles = JSON.parse(itemstemp);
+            }
 
-      }, 500);
+          }, 500);
+        }
       }
     });
   }
@@ -81,38 +79,40 @@ export class ListVehiclesComponent {
     this.search_text = text;
     this.search();
 
-
   }
 
   search() {
     console.log("searching");
-    
-    this.vehicleService.getVehicles(this.page, this.search_text).subscribe((resp: any) => {
 
-      if (resp && resp.data) {
-        this.vehicles = resp.data;
-      }
+    this.vehicleService.getVehicles(this.page, this.search_text).subscribe({
+      next: (resp: any) => {
 
-    }, (error) => {
-      if(error.status == 0){
-        console.log("offline");
-        
-        let itemstemp = localStorage.getItem("items");
-        if (itemstemp) {
-          this.vehicles = JSON.parse(itemstemp);
-          this.vehicles = this.vehicles.filter((item: any) => {
-            console.log("filtro", !this.search_text);
-            
-            let passesTextFilter = !this.search_text || item.food.includes(this.search_text);
-            
-            return passesTextFilter;
-          });
+        if (resp && resp.data) {
+          this.vehicles = resp.data;
         }
-        
+  
+      }, error: (error) => {
+        if (error.status == 0) {
+  
+          let vehiclestemp = localStorage.getItem("vehiclesList");
+          if (vehiclestemp) {
+            this.vehicles = JSON.parse(vehiclestemp);
+            this.vehicles = this.vehicles.filter((vehicle: Vehicle) => {
+              console.log(vehicle.model_year);
+              
+              let passesPlateFilter = !this.search_text || vehicle.plate.includes(this.search_text);
+              let passesModelYearFilter = !this.search_text || vehicle.model_year.toString().includes(this.search_text);
+              
+              console.log("filtro", passesPlateFilter || passesModelYearFilter);
+              return passesPlateFilter || passesModelYearFilter;
+            });
+          }
+  
+        }
+  
+  
+  
       }
-
-
-
     });
   }
 
@@ -120,12 +120,12 @@ export class ListVehiclesComponent {
     this.router.navigateByUrl('/vehicles/create')
   }
 
-  getPhotoVehicle(vehicle: Vehicle ){
+  getPhotoVehicle(vehicle: Vehicle) {
     return vehicle.image ? vehicle.image : "/assets/img/card-media.png";
   }
 
-  showVehicle(vehicle:Vehicle ){
-    this.router.navigateByUrl(`/vehicles/${vehicle.id}`,{ state: { vehicle: vehicle } });
+  showVehicle(vehicle: Vehicle) {
+    this.router.navigateByUrl(`/vehicles/${vehicle.id}`, { state: { vehicle: vehicle } });
   }
 
 

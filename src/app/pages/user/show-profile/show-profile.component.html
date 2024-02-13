@@ -11,7 +11,7 @@
   <ion-card *ngIf="profile">
     <ion-card-content class="d-flex flex-column">
       <div class="profile-pic">
-        <img [src]="profile.photoProfile" alt="profile photo" />
+        <img [src]="getImage('photoProfile')" alt="profile photo" />
       </div>
       <hr>
       <ion-card-title>{{ profile.name }} {{ profile.lastname }}</ion-card-title>
@@ -23,11 +23,11 @@
       <ion-label><strong>Dirección: </strong> {{ profile.geoAddress }}</ion-label>
       <ion-label class="text-center"><strong>Documento parte frontal</strong></ion-label>
       <ion-item>
-        <img [src]="profile.photoIdFront" alt="id front photo" />
+        <img [src]="getImage('photoIdFront')" alt="id front photo" />
       </ion-item>
       <ion-label class="text-center"><strong>Documento parte trasera</strong></ion-label>
       <ion-item>
-        <img [src]="profile.photoIdBack" alt="id back photo" />
+        <img [src]="getImage('photoIdBack')" alt="id back photo" />
       </ion-item>
     </ion-card-content>
   </ion-card>

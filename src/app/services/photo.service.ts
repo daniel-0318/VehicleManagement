@@ -11,7 +11,7 @@ export class PhotoService {
   public async takephoto() {
 
     const image = await Camera.getPhoto({
-      quality: 20,
+      quality: 10,
       allowEditing: true,
       resultType: CameraResultType.Base64
     });

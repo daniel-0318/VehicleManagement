@@ -34,7 +34,7 @@ export class LoginComponent {
       this.userService.login(credentials).subscribe((resp:any) => {
         
         if(resp['status'] === 'sucess'){
-
+          this.alertsService.presentToast("Bienvenido");
           localStorage.setItem('token',resp['token']);
           this.router.navigate(['/']);
 
@@ -51,6 +51,8 @@ export class LoginComponent {
           if(user?.email === credentials.email && user.password === credentials.password){
             localStorage.setItem('token', 'faketoken');
             this.router.navigateByUrl("/");
+          }else{
+            this.alertsService.presentAlert("Error al iniciar sesión", "Usuario o contraseña incorrectos");
           }
   
         }

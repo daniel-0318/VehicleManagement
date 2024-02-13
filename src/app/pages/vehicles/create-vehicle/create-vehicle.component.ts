@@ -42,30 +42,29 @@ export class CreateVehicleComponent {
           if (resp && resp.data.id) {
             this.router.navigateByUrl("/vehicles/list");
           }
-        }, error: (error) => {
-  
-          let itemsTemp = localStorage.getItem("items");
-          data.id = data.dateFood;
-          if (!itemsTemp) {
-            let temp = [data];
-            let temp2 = JSON.stringify(temp);
-            localStorage.setItem("items", temp2);
-          } else {
-  
-            let temp = JSON.parse(itemsTemp);
-            const index = temp.findIndex((objeto: any) => objeto.id === data.id);
-            if (index !== -1) {
-              temp[index] = data;
+        }, error: (error) => {;
+          
+          if (error.status == 0) {
+
+            let itemsTemp = localStorage.getItem("vehiclesList");
+            data.id = data.plate;
+            if (!itemsTemp) {
+              let temp = [data];
+              let temp2 = JSON.stringify(temp);
+              localStorage.setItem("vehiclesList", temp2);
             } else {
+    
+              let temp = JSON.parse(itemsTemp);
               temp = [data, ...temp];
+              let temp2 = JSON.stringify(temp);
+    
+    
+              localStorage.setItem("vehiclesList", temp2);
+    
             }
-            let temp2 = JSON.stringify(temp);
-  
-  
-            localStorage.setItem("items", temp2);
-  
+            this.router.navigateByUrl("/vehicles/list");
+
           }
-          this.router.navigateByUrl("/vehicles/list");
         }
       });
     } else {

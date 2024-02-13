@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { ValidatorsService } from 'src/app/services/validators.service';
+import { AlertsService } from '../../services/alerts.service';
 
 @Component({
   selector: 'app-register',
@@ -16,14 +17,14 @@ export class RegisterComponent {
   showPassowordConfirm:boolean = false;
   
   constructor(private fb: FormBuilder, private validatorsService:ValidatorsService, 
-    private userService:UserService, private router: Router) {
+    private userService:UserService, private router: Router, private alertsService:AlertsService) {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       lastname: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
       identificationType: ['', Validators.required],
       identificationNumber: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
+      phone: ['', [Validators.required, Validators.minLength(6), Validators.pattern("^[0-9]+$")]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       password2: ['', [Validators.required]],
     }, {
@@ -44,8 +45,8 @@ export class RegisterComponent {
       delete formData.password2;
       this.userService.createUser(formData).subscribe(resp => {
         this.toLogin();
-      }, error => {
-        console.log("no hay conexion pasamos a offline");
+      }, (error) => {
+        this.alertsService.presentToast("Cuenta creada offline")
         const info = JSON.stringify(formData)
         localStorage.setItem("user", info);
         this.router.navigateByUrl("auth/login");

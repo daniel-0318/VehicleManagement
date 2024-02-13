@@ -3,6 +3,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { VehicleService } from 'src/app/services/vehicle.service';
 import { Vehicle } from '../interfaces/vehicles.interface';
+import { AlertsService } from '../../../services/alerts.service';
 
 @Component({
   selector: 'app-show-vehicle',
@@ -14,7 +15,8 @@ export class ShowVehicleComponent  {
   public vehicle!:Vehicle;
 
 
-  constructor(private vehicleService:VehicleService, private router: Router, private alertController: AlertController) { 
+  constructor(private vehicleService:VehicleService, private router: Router, 
+    private alertController: AlertController, private alertsService:AlertsService) { 
     const navigation = this.router.getCurrentNavigation();
     if (navigation && navigation.extras && navigation.extras.state) {
       this.vehicle = navigation.extras["state"]["vehicle"];
@@ -37,21 +39,26 @@ export class ShowVehicleComponent  {
           handler: () => {
             this.vehicleService.deleteVehicle(this.vehicle.id).subscribe({
               next: (resp:any)=>{
-                console.log(resp?.status);
                 
                 if(resp && resp?.status === "success"){
+                  this.alertsService.presentToast("El vehículo fue elimininado exitosamente")
                   this.router.navigateByUrl('/vehicles/list');
                 }
               },
               error:(error)=> {
-                console.error('Error al eliminar:', error);
-                let token = localStorage.getItem('token');
-                if (token && token === "faketoken") {
-                  let vehiclesRaw = localStorage.getItem('vehiclesList');
-                  let vehicles = JSON.parse(vehiclesRaw!);
-                  vehicles = vehicles.filter((element: any) => element.id !== this.vehicle.id);
-                  let itemsString = JSON.stringify(vehicles);
-                  localStorage.setItem('vehiclesList', itemsString);
+                if (error.status == 0) {
+
+                  console.error('Error al eliminar:', error);
+                  let token = localStorage.getItem('token');
+                  if (token && token === "faketoken") {
+                    let vehiclesRaw = localStorage.getItem('vehiclesList');
+                    let vehicles = JSON.parse(vehiclesRaw!);
+                    vehicles = vehicles.filter((element: any) => element.id !== this.vehicle.id);
+                    let itemsString = JSON.stringify(vehicles);
+                    localStorage.setItem('vehiclesList', itemsString);
+                    this.alertsService.presentToast("El vehículo fue elimininado exitosamente")
+                    this.router.navigateByUrl('/vehicles/list');
+                  }
                 }
               }
             }

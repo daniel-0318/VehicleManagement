@@ -16,6 +16,9 @@
         <ion-label> <strong>Placa:</strong> {{vehicle.plate}} - <strong>Año:</strong> {{vehicle.model_year}}</ion-label>
       </ion-item>
     </div>
+    <div class="text-center" *ngIf="!vehicles || vehicles.length === 0">
+      <span>No se encontraron vehículos.</span>
+    </div>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
     <ion-infinite-scroll-content></ion-infinite-scroll-content>

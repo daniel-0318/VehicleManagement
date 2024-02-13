@@ -56,25 +56,23 @@ export class EditProfileComponent{
   onSubmit() {
     if (this.profileform.valid) {
       const formData = this.profileform.value;
-      this.userService.updateUser(formData).subscribe((resp:any) => {
-        if(resp && resp?.message==='Sucess'){
+      this.userService.updateUser(formData).subscribe({
+        next:(resp:any) => {
+          if(resp && resp?.message==='Sucess'){
+            this.alertsService.presentToast("Perfil actualizado");
+            this.router.navigateByUrl('/user/show');
+          }
+        },error: (error) => {
+          let temp = JSON.stringify(formData);
+          localStorage.setItem("profile", temp);
           this.alertsService.presentToast("Perfil actualizado");
           this.router.navigateByUrl('/user/show');
         }
-      }, error => {
-        let temp = JSON.stringify(formData);
-        localStorage.setItem("profile", temp);
-        this.alertsService.presentToast("Perfil actualizado");
-        this.router.navigateByUrl('/user/show');
       });
       
     } else {
       this.profileform.markAllAsTouched();
     }
-  }
-
-  public getPhoto(photo:string){
-    return this.profileform.get(photo)?.value;
   }
 
   changeAddress(event:any){
@@ -84,7 +82,6 @@ export class EditProfileComponent{
 
   getImage(type:string){
     const image = this.profileform.get(type)?.value;
-    console.log(type, image);
     
     if(image){
       return image;
