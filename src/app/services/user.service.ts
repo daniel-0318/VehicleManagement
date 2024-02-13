@@ -40,4 +40,13 @@ export class UserService {
 
     return this.http.get(`${environment.url}/v1/user/show`,{headers:this.getHeader()});
   }
+
+  public isAuthenticated(){
+    let token = localStorage.getItem('token');
+    if(token){
+      return true
+    }else{
+      return false;
+    }
+  }
 }

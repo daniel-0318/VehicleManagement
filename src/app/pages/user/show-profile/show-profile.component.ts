@@ -27,8 +27,10 @@ export class ShowProfileComponent{
   getProfile(){
     this.userService.getProfile().subscribe((resp:any)=>{
       if(resp){
+        console.log(resp.photoProfile);
+        
         this.profile = resp;
-        this.profile.photoFacial = resp.photoFacial ? resp.photoFacial : '/assets/img/user.png';
+        this.profile.photoProfile = resp.photoProfile ? resp.photoProfile : '/assets/img/user.png';
         let tempProfile = JSON.stringify( this.profile);
         localStorage.setItem("user", tempProfile );
       }
@@ -40,7 +42,7 @@ export class ShowProfileComponent{
 
         let temp2  = JSON.parse(temp)
         let tempUser  = JSON.parse(tempuser!);
-        temp2.photoFacial = tempUser.photoFacial;
+        temp2.photoProfile = tempUser.photoProfile;
         this.profile = temp2;
       }else{
         if(tempuser){

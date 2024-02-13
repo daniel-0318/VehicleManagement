@@ -66,7 +66,7 @@ export class RegisterComponent {
     const image = this.registerForm.get(type)?.value;
     if(image != ""){
       return image;
-    }else if(type == "photoFacial"){
+    }else if(type == "photoProfile"){
       return '/assets/img/user.png';
     }else{
       return '/assets/img/dni.png';

@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="/user/show" color="white"  mode="md"></ion-back-button>
     </ion-buttons>
     <ion-title>Editar Perfil</ion-title>
   </ion-toolbar>
@@ -10,8 +10,8 @@
 <ion-content>
   <form [formGroup]="profileform" (ngSubmit)="onSubmit()" class="mx-3 my-4">
     <div class="profile-pic ion-text-center">
-      <img [src]="getPhoto('photoFacial')" alt="Foto de perfil" />
-      <ion-button (click)="addPhotoToGallery('photoFacial')" class="change-photo-button">
+      <img [src]="getPhoto('photoProfile')" alt="Foto de perfil" />
+      <ion-button (click)="addPhotoToGallery('photoProfile')" class="change-photo-button">
         Actualizar foto
         <ion-icon slot="end" name="camera"></ion-icon>
       </ion-button>
@@ -32,9 +32,9 @@
 
     <ion-item>
       <ion-select formControlName="identificationType" labelPlacement="floating" label="Tipo de identidad">
-        <ion-select-option value="cedula">Cédula</ion-select-option>
-        <ion-select-option value="nit">NIT</ion-select-option>
-        <ion-select-option value="pasaporte">Pasaporte</ion-select-option>
+        <ion-select-option value="CC">Cédula de ciudadania</ion-select-option>
+          <ion-select-option value="CE">Cédula de extrajeria</ion-select-option>
+          <ion-select-option value="RC">Registro civil</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-text color="danger" class="text-error pl-3" *ngIf="idValidField('identificationType')">

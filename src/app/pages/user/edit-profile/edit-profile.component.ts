@@ -27,14 +27,14 @@ export class EditProfileComponent{
     
 
     this.profileform = this.fb.group({
-      photoFacial: [this.profile.photoFacial],
+      photoProfile: [this.profile.photoProfile],
       name: [this.profile.name, Validators.required],
       lastname: [this.profile.lastname, Validators.required],
       identificationType: [this.profile.identificationType, Validators.required],
       identificationNumber: [this.profile.identificationNumber, Validators.required],
-      gender: [this.profile.gender, Validators.required],
+      gender: [this.profile.gender || "no-especificado"],
       phone: [this.profile.phone, [Validators.required, Validators.pattern("^[0-9]+$")]],
-      geoAddress: [this.profile.geoAddress, Validators.required],
+      geoAddress: [this.profile.geoAddress],
       photoIdFront: [this.profile.photoIdFront],
       photoIdBack: [this.profile.photoIdBack],
     });
@@ -59,13 +59,13 @@ export class EditProfileComponent{
       this.userService.updateUser(formData).subscribe((resp:any) => {
         if(resp && resp?.message==='Sucess'){
           this.alertsService.presentToast("Perfil actualizado");
-          this.router.navigateByUrl('/profile/show');
+          this.router.navigateByUrl('/user/show');
         }
       }, error => {
         let temp = JSON.stringify(formData);
         localStorage.setItem("profile", temp);
         this.alertsService.presentToast("Perfil actualizado");
-        this.router.navigateByUrl('/profile/show');
+        this.router.navigateByUrl('/user/show');
       });
       
     } else {
@@ -84,11 +84,11 @@ export class EditProfileComponent{
 
   getImage(type:string){
     const image = this.profileform.get(type)?.value;
-    console.log(image);
+    console.log(type, image);
     
-    if(image != ""){
+    if(image){
       return image;
-    }else if(type == "photoFacial"){
+    }else if(type == "photoProfile"){
       return '/assets/img/user.png';
     }else{
       return '/assets/img/dni.png';

@@ -33,7 +33,7 @@ export class LoginComponent {
       credentials.name = 'app';
       this.userService.login(credentials).subscribe((resp:any) => {
         
-        if(resp['message'] === 'Sucess'){
+        if(resp['status'] === 'sucess'){
 
           localStorage.setItem('token',resp['token']);
           this.router.navigate(['/']);

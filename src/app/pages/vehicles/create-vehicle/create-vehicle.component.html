@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/vehicles/list" color="white"  mode="md"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Crear vehiculo</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="p-2">
+    <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="my-4">
+      <ion-item>
+        <ion-input formControlName="plate" type="text" labelPlacement="floating" label="Placa"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input formControlName="model_year" type="text" labelPlacement="floating" label="Año del modelo"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select formControlName="configuration" labelPlacement="floating" label="Configuración">
+          <ion-select-option *ngFor="let config of listConfiguration " [value]="config">
+            {{config}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select formControlName="body_type" labelPlacement="floating" label="Carrocería">
+          <ion-select-option *ngFor="let bodyType of listBodyType " [value]="bodyType">
+            {{bodyType}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-grid class="ion-no-padding">
+          <ion-row class="ion-padding-top">
+            <ion-col size="12">
+              <ion-label>Foto del vehiculo</ion-label>
+            </ion-col>
+            <ion-col size="12">
+              <div class="d-flex ion-align-items-center">
+                <div class="ion-align-items-start">
+                  <ion-img [src]="getImage('image')" style="width: 100px; height: 100px;"></ion-img>
+                </div>
+                <div class="ion-align-items-end ion-padding-start">
+                  <ion-button (click)="addPhotoToGallery()" class="ion-margin-start">
+                    <ion-icon slot="icon-only" name="add"></ion-icon>
+                  </ion-button>
+                </div>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-button expand="block" type="submit">Guardar</ion-button>
+    </form>
+  </div>
+</ion-content>

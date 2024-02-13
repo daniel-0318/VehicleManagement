@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de vehiculos</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-row class="ion-padding">
+    <ion-searchbar animated="true" placeholder="Buscar.." [debounce]="500" (ionInput)="searchText($event)"></ion-searchbar>
+  </ion-row>
+  <ion-list>
+    <div *ngFor="let vehicle of vehicles">
+      <ion-item (click)="showVehicle(vehicle)">
+        <ion-avatar aria-hidden="true" slot="start">
+          <img alt="" [src]="getPhotoVehicle(vehicle)" />
+        </ion-avatar>
+        <ion-label> <strong>Placa:</strong> {{vehicle.plate}} - <strong>Año:</strong> {{vehicle.model_year}}</ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="goCreate()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -27,7 +27,16 @@
 
 
 ion-toolbar{
-  --background: #cce4ff;
+  --background: #004391;
+}
+
+ion-title{
+  color: white;
+  font-weight: 400;
+}
+
+ion-back-button{
+  color: white;
 }
 
 .text-error{
